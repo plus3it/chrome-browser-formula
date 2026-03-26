@@ -49,7 +49,7 @@ Install custom Chrome repo:
     - group: root
     - mode: '0644'
     - name: '{{ repo_dir }}/{{ repo_name }}.repo'
-    - require_out:
+    - require_in:
       - pkg: 'Install Chrome RPM'
     - user: root
 {%- else %}
@@ -61,6 +61,6 @@ Install standard Chrome repo:
     - gpgcheck: 1
     - gpgkey: https://dl.google.com/linux/linux_signing_key.pub
     - name: '{{ repo_name }}'
-    - require_out:
+    - require_in:
       - pkg: 'Install Chrome RPM'
 {%- endif %}
