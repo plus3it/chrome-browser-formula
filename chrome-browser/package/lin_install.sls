@@ -3,10 +3,8 @@
 
 {#- Get the `tplroot` from `tpldir` #}
 {%- set tplroot = tpldir.split('/')[0] %}
-{%- set chrome_type = salt.pillar.get(
-    'chrome-browser:lookup:elx:chrome_family',
-    'google-chrome-stable'
-  )
+{%- set chrome_type = salt.pillar.get('chrome-browser:lookup:elx:chrome_family')
+    | default('google-chrome-stable', true)
 %}
 {%- set private_repo_def = salt.pillar.get(
     'chrome-browser:lookup:elx:private_repo_def',
