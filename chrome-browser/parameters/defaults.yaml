@@ -1,0 +1,12 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+#
+# Set default values.
+---
+values:
+  pkg:
+    name: chrome
+    install_uri: ''
+    uninstaller: ''
+  rootgroup: root
+...
