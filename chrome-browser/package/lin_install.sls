@@ -3,14 +3,7 @@
 
 {#- Get the `tplroot` from `tpldir` #}
 {%- set tplroot = tpldir.split('/')[0] %}
-{%- set chrome_type = salt.pillar.get('chrome-browser:lookup:elx:chrome_family')
-    | default('google-chrome-stable', true)
-%}
-{%- set private_repo_def = salt.pillar.get(
-    'chrome-browser:lookup:elx:private_repo_def',
-    ''
-  )
-%}
+{%- from tplroot ~ "/map.jinja" import mapdata as chrome with context %}
 {%- set repo_dir = '/etc/yum.repos.d' %}
 {%- set repo_name = 'google-chrome' %}
 
@@ -37,13 +30,13 @@ Fix Chrome desktop-icon:
 
 Install Chrome RPM:
   pkg.installed:
-    - name: '{{ chrome_type }}'
+    - name: '{{ chrome.pkg.release_family }}'
 
-{%- if private_repo_def %}
+{%- if chrome.pkg.private_repo_def %}
 Install custom Chrome repo:
   file.managed:
     - contents: |
-        {{ private_repo_def | indent(8) }}
+        {{ chrome.pkg.private_repo_def | indent(8) }}
     - group: root
     - mode: '0644'
     - name: '{{ repo_dir }}/{{ repo_name }}.repo'
