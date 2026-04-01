@@ -4,9 +4,11 @@
 # Set default values.
 ---
 values:
+  extra_files: {}
   pkg:
+    installer_uri: ''
     name: chrome
-    install_uri: ''
+    private_repo_def: ''
+    release_family: ''
     uninstaller: ''
-  rootgroup: root
 ...
