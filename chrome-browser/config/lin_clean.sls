@@ -7,14 +7,20 @@
 {%- set repo_dir = '/etc/yum.repos.d' %}
 {%- set repo_name = 'google-chrome' %}
 
-Ensure Chrome flags for Wayland are removed:
-  file.absent:
-    - name: /etc/profile.d/chrome_flags.sh
+Clean DNF Cache:
+  cmd.run:
+    - name: dnf clean all
+    - onchanges:
+      - pkgrepo: 'Nuke Chrome DNF repository-definition'
 
-Remove Chrome desktop-icon customizations are removed:
+Ensure Dekstop Icon File is gone:
   file.absent:
     - name: '/usr/local/share/applications/google-chrome.desktop'
 
-Remove custom Chrome repo:
+Nuke Chrome DNF repository-definition:
+  pkgrepo.absent:
+    - name: 'google-chrome'
+
+Nuke Watchmaker-installed, Chrome-related /etc/profile.d/ contents:
   file.absent:
-    - name: '{{ repo_dir }}/{{ repo_name }}.repo'
+    - name: '/etc/profile.d/chrome_flags.sh'
