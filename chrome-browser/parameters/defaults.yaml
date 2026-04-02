@@ -1,0 +1,14 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+#
+# Set default values.
+---
+values:
+  extra_files: {}
+  pkg:
+    installer_uri: ''
+    name: chrome
+    private_repo_def: ''
+    release_family: ''
+    uninstaller: ''
+...

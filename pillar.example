@@ -1,0 +1,26 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+---
+chrome-browser:
+  lookup:
+    windows:                      # Keys to support deployments on Windows Server hosts
+      installer_uri: ''           # Support to be added
+    elx:                          # Keys to support deployments on Enterprise Linux hosts
+      chrome_family: ''		        # May be any of
+                                  # * 'google-chrome-beta'
+                                  # * 'google-chrome-canary'
+                                  # * 'google-chrome-stable': Default value if unset
+                                  # * 'google-chrome-unstable'
+      custom_version: ''	        # Support to be added
+      installer_uri: ''		        # Support to be added
+      private_repo_def: |	        # If using other than the official Google repositories
+                                  # inject the desired /etc/yum.repos.d file-contents,
+                                  # here, as a text-block (config-clone of official
+                                  # Google repositories shown for demonstration purposes
+                                  # only)
+        [google-chrome]
+        name=google-chrome
+        baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64
+        enabled=1
+        gpgcheck=1
+        gpgkey=https://dl.google.com/linux/linux_signing_key.pub
