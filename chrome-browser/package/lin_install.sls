@@ -21,7 +21,7 @@ Ensure Chrome flags are set for Wayland:
 
 Fix Chrome desktop-icon:
   file.replace:
-    - name: /usr/share/applications/google-chrome.desktop
+    - name: '/usr/local/share/applications/google-chrome.desktop'
     - pattern: '^Exec=/usr/bin/google-chrome-stable %U'
     - repl: 'Exec=/usr/bin/google-chrome-stable --ozone-platform-hint=auto %U'
     - append_if_not_found: False
