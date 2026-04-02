@@ -14,6 +14,5 @@
 values:
   pkg:
     name: google-chrome-stable
-    repo_dir: '/etc/yum.repos.d'
-    repo_name: 'google-chrome'
+    private_repo_def: None
 ...
