@@ -4,7 +4,6 @@
 {#- Get the `tplroot` from `tpldir` #}
 {%- set tplroot = tpldir.split('/')[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as chrome with context %}
-{%- set repo_dir = '/etc/yum.repos.d' %}
 {%- set repo_name = 'google-chrome' %}
 
 Clean DNF Cache:
@@ -19,7 +18,7 @@ Ensure Dekstop Icon File is gone:
 
 Nuke Chrome DNF repository-definition:
   pkgrepo.absent:
-    - name: 'google-chrome'
+    - name: '{{ repo_name }}'
 
 Nuke Watchmaker-installed, Chrome-related /etc/profile.d/ contents:
   file.absent:
