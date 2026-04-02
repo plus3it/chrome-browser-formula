@@ -8,9 +8,8 @@
 
 include:
   - {{ sls_service_clean }}
-
-chrome-config-clean-file-absent:
-  file.absent:
-    - name: {{ chrome.config }}
-    - require:
-      - sls: {{ sls_service_clean }}
+{%- if grains.kernel == "Linux" %}
+  - .lin_clean
+{%- elif grains.kernel == "Windows" %}
+  - .win_clean
+{%- endif %}
