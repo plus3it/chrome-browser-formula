@@ -14,3 +14,9 @@
 
 include:
   - {{ sls_package_install }}
+{%- if grains.kernel == "Linux" %}
+  - .lin_file
+{%- elif grains.kernel == "Windows" %}
+  - .win_file
+{%- endif %}
+
