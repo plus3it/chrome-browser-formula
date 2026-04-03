@@ -15,11 +15,11 @@ values:
   pkg:
 {%- if salt.grains.get('cpuarch') == 'AMD64' %}
     name: 'chrome-browser'
-      installer_uri: 'https://dl.google.com/chrome/install/googlechromestandaloneenterprise64.msi'
-      uninstaller: 'C:/Program Files/...'
+    installer_uri: 'https://dl.google.com/chrome/install/googlechromestandaloneenterprise64.msi'
+    uninstaller: 'C:/Program Files/...'
 {%- else %}
     name: 'chrome-browser'
-      installer_uri: 'https://dl.google.com/chrome/install/googlechromestandaloneenterprise.msi'
-      uninstaller: 'C:/Program Files (x86)/...'
+    installer_uri: 'https://dl.google.com/chrome/install/googlechromestandaloneenterprise.msi'
+    uninstaller: 'C:/Program Files (x86)/...'
 {%- endif %}
 ...
