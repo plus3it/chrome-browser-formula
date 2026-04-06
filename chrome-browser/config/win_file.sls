@@ -17,20 +17,39 @@
   }
 %}
 
-Ensure Chrome TempDir Exists:
-  file.directory:
+Cleanup Chrome Temp Directory:
+  file.absent:
     - name: '{{ ChromeTmp }}'
-    - makedirs: True
-
-Extract Chrome Bundle:
-  archive.extracted:
-    - name: '{{ ChromeTmp }}/full_extract'
-    - source: 'https://dl.google.com/dl/edgedl/chrome/policy/policy_templates.zip'
-    - skip_verify: True
-    - enforce_toplevel: False
-    - overwrite: True
     - require:
-      - file: 'Ensure Chrome TempDir Exists'
+    {%- for id in chrome_files.keys() %}
+      - file: 'Deploy file {{ id }}'
+    {%- endfor %}
+
+{%- if chrome.policy_extras.settings.home_page %}
+Configure Chrome Homepage:
+  reg.present:
+    - name: '{{ hklm_root }}'
+    - vname: 'HomepageLocation'
+    - vdata: '{{ chrome.policy_extras.settings.home_page }}'
+    - vtype: REG_SZ
+    - require:
+    {%- for id in chrome_files.keys() %}
+      - file: 'Deploy file {{ id }}'
+    {%- endfor %}
+{%- endif %}
+
+{%- if chrome.policy_extras.settings.managed_bookmarks_enabled | string | lower == 'true' and chrome.policy_extras.settings.managed_bookmarks %}
+Configure Managed Bookmarks:
+  reg.present:
+    - name: '{{ hklm_root }}'
+    - vname: 'ManagedBookmarks'
+    - vdata: {{ chrome.policy_extras.settings.managed_bookmarks | json }}
+    - vtype: REG_SZ
+    - require:
+    {%- for id in chrome_files.keys() %}
+      - file: 'Deploy file {{ id }}'
+    {%- endfor %}
+{%- endif %}
 
 {%- for id, paths in chrome_files.items() %}
 Deploy file {{ id }}:
@@ -43,14 +62,6 @@ Deploy file {{ id }}:
       - archive: 'Extract Chrome Bundle'
 {%- endfor %}
 
-Cleanup Chrome Temp Directory:
-  file.absent:
-    - name: '{{ ChromeTmp }}'
-    - require:
-{%- for id in chrome_files.keys() %}
-      - file: 'Deploy file {{ id }}'
-{%- endfor %}
-
 {%- if no_update_value == 'true' %}
 Disable Chrome Auto-Update:
   reg.present:
@@ -58,19 +69,6 @@ Disable Chrome Auto-Update:
     - vname: 'UpdateDefault'
     - vdata: 0
     - vtype: REG_DWORD
-    - require:
-    {%- for id in chrome_files.keys() %}
-      - file: 'Deploy file {{ id }}'
-    {%- endfor %}
-{%- endif %}
-
-{%- if chrome.policy_extras.settings.home_page %}
-Configure Chrome Homepage:
-  reg.present:
-    - name: '{{ hklm_root }}'
-    - vname: 'HomepageLocation'
-    - vdata: '{{ chrome.policy_extras.settings.home_page }}'
-    - vtype: REG_SZ
     - require:
     {%- for id in chrome_files.keys() %}
       - file: 'Deploy file {{ id }}'
@@ -90,15 +88,17 @@ Disable Chrome Password Manager:
     {%- endfor %}
 {%- endif %}
 
-{%- if chrome.policy_extras.settings.managed_bookmarks_enabled | string | lower == 'true' and chrome.policy_extras.settings.managed_bookmarks %}
-Configure Managed Bookmarks:
-  reg.present:
-    - name: '{{ hklm_root }}'
-    - vname: 'ManagedBookmarks'
-    - vdata: {{ chrome.policy_extras.settings.managed_bookmarks | json }}
-    - vtype: REG_SZ
+Ensure Chrome TempDir Exists:
+  file.directory:
+    - name: '{{ ChromeTmp }}'
+    - makedirs: True
+
+Extract Chrome Bundle:
+  archive.extracted:
+    - name: '{{ ChromeTmp }}/full_extract'
+    - source: 'https://dl.google.com/dl/edgedl/chrome/policy/policy_templates.zip'
+    - skip_verify: True
+    - enforce_toplevel: False
+    - overwrite: True
     - require:
-    {%- for id in chrome_files.keys() %}
-      - file: 'Deploy file {{ id }}'
-    {%- endfor %}
-{%- endif %}
+      - file: 'Ensure Chrome TempDir Exists'
