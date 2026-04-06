@@ -14,4 +14,11 @@ values:
   policy_extras:
     policy_archive: 'https://dl.google.com/dl/edgedl/chrome/policy/policy_templates.zip'
     archive_root: ''
+    settings:
+      chrome_homepage: ''
+      home_page: ''
+      managed_bookmarks: null
+      managed_bookmarks_enabled: ''
+      no_update: false
+      password_manager_enabled: ''
 ...
