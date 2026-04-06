@@ -12,6 +12,8 @@
 # values: {}
 ---
 values:
+  policy_extras:
+    archive_root: 'common/html/*'
   pkg:
     name: google-chrome-stable
     private_repo_def: None

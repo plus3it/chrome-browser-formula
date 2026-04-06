@@ -11,4 +11,7 @@ values:
     private_repo_def: ''
     release_family: ''
     uninstaller: ''
+  policy_extras:
+    policy_archive: 'https://dl.google.com/dl/edgedl/chrome/policy/policy_templates.zip'
+    archive_root: ''
 ...

@@ -12,6 +12,8 @@
 # values: {}
 ---
 values:
+  policy_extras:
+    archive_root: 'windows/*'
   pkg:
 {%- if salt.grains.get('cpuarch') == 'AMD64' %}
     name: 'chrome-browser'
