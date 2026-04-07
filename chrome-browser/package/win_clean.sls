@@ -9,6 +9,11 @@
     'HKEY_LOCAL_MACHINE\SOFTWARE\GooglePlugins'
   ]
 %}
+{%- set ps_cmd = 'Get-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows' ~
+    '\CurrentVersion\Uninstall\* | Where-Object {$_.DisplayName' ~
+    ' -eq "Google Chrome"} | Select-Object -ExpandProperty PSChildName'
+%}
+{%- set installed_guid = salt.cmd.run(ps_cmd, shell='powershell').strip() %}
 
 {%- for reg_key in reg_keys %}
 Delete {{ reg_key }} from registry:
@@ -33,5 +38,8 @@ Nuke the Chrome install-directory:
 
 Uninstall Chrome application:
   pkg.removed:
-    - name: 'Google Chrome'
-    - use_msiexec: True
+    - name: '{{ installed_guid if installed_guid else "Google Chrome" }}'
+    - onlyif:
+      - fun: cmd.run
+        name: 'if ("{{ installed_guid }}") { exit 0 } else { exit 1 }'
+        shell: powershell
