@@ -39,7 +39,5 @@ Nuke the Chrome install-directory:
 Uninstall Chrome application:
   pkg.removed:
     - name: '{{ installed_guid if installed_guid else "Google Chrome" }}'
-    - onlyif:
-      - fun: cmd.run
-        name: 'if ("{{ installed_guid }}") { exit 0 } else { exit 1 }'
-        shell: powershell
+    # Use a direct string check to avoid the 'cmd' argument TypeError
+    - onlyif: 'powershell -command "if (''{{ installed_guid }}'') {exit 0} else {exit 1}"'
