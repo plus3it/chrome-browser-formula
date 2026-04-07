@@ -14,7 +14,7 @@
 Delete {{ reg_key }} from registry:
   reg.absent:
     - name: {{ reg_key }}
-    - onlyif:
+    - onchanges:
       - pkg: 'Uninstall Chrome application'
 {%- endfor %}
 
@@ -22,13 +22,13 @@ Nuke the Chrome install-directory contents:
   file.directory:
     - name: '{{ chrome_install_dir }}'
     - clean: True
-    - onlyif:
+    - onchanges:
       - pkg: 'Uninstall Chrome application'
 
 Nuke the Chrome install-directory:
   file.absent:
     - name: '{{ chrome_install_dir }}'
-    - onlyif:
+    - onchanges:
       - file: 'Nuke the Chrome install-directory contents'
 
 Uninstall Chrome application:
