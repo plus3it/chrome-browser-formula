@@ -5,12 +5,12 @@
 {%- from tplroot ~ "/map.jinja" import mapdata as chrome with context %}
 {%- set chrome_install_dir = 'C:/Program Files/Google Chrome/' %}
 {%- set reg_keys = [
-    'HKEY_LOCAL_MACHINE\SOFTWARE\Google',
-    'HKEY_LOCAL_MACHINE\SOFTWARE\GooglePlugins'
+    'HKEY_LOCAL_MACHINE\\SOFTWARE\\Google',
+    'HKEY_LOCAL_MACHINE\\SOFTWARE\\GooglePlugins'
   ]
 %}
-{%- set ps_cmd = 'Get-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows' ~
-    '\CurrentVersion\Uninstall\* | Where-Object {$_.DisplayName' ~
+{%- set ps_cmd = 'Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows' ~
+    '\\CurrentVersion\\Uninstall\\* | Where-Object {$_.DisplayName' ~
     ' -eq "Google Chrome"} | Select-Object -ExpandProperty PSChildName'
 %}
 {%- set installed_guid = salt.cmd.run(ps_cmd, shell='powershell').strip() %}
@@ -18,7 +18,7 @@
 {%- for reg_key in reg_keys %}
 Delete {{ reg_key }} from registry:
   reg.absent:
-    - name: {{ reg_key }}
+    - name: '{{ reg_key }}'
     - onchanges:
       - pkg: 'Uninstall Chrome application'
 {%- endfor %}
