@@ -10,19 +10,20 @@
   ]
 %}
 
-Uninstall Chrome application:
-  cmd.run:
-    - name: '"{{ chrome.pkg.uninstaller }}" /S /allusers'
-    - shell: powershell
+{%- for reg_key in reg_keys %}
+Delete {{ reg_key }} from registry:
+  reg.absent:
+    - name: {{ reg_key }}
     - onlyif:
-      - 'test -f {{ chrome.pkg.uninstaller }}'
+      - pkg: 'Uninstall Chrome application'
+{%- endfor %}
 
 Nuke the Chrome install-directory contents:
   file.directory:
     - name: '{{ chrome_install_dir }}'
     - clean: True
     - onlyif:
-      - cmd: 'Uninstall Chrome application'
+      - pkg: 'Uninstall Chrome application'
 
 Nuke the Chrome install-directory:
   file.absent:
@@ -30,10 +31,6 @@ Nuke the Chrome install-directory:
     - onlyif:
       - file: 'Nuke the Chrome install-directory contents'
 
-{%- for reg_key in reg_keys %}
-Delete {{ reg_key }} from registry:
-  reg.absent:
-    - name: {{ reg_key }}
-    - onlyif:
-      - cmd: 'Uninstall Chrome application'
-{%- endfor %}
+Uninstall Chrome application:
+  pkg.removed:
+    - name: 'Google Chrome'
