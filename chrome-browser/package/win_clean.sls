@@ -34,3 +34,4 @@ Nuke the Chrome install-directory:
 Uninstall Chrome application:
   pkg.removed:
     - name: 'Google Chrome'
+    - use_msiexec: True
