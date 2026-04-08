@@ -24,7 +24,9 @@ Download Chrome Standalone EXE-based installer:
 
 Install Google Chrome EXE:
   cmd.run:
-    - name: '"{{ temp_exe }}" /silent /install'
+    - name: |
+        Start-Process "{{ temp_exe }}" -ArgumentList '/silent /install' -Wait
+        Start-Sleep -Seconds 5
     - require:
       - file: 'Download Chrome Standalone EXE-based installer'
     - shell: powershell
