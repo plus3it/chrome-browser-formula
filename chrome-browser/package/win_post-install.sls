@@ -28,11 +28,11 @@ Re-enable IE ESC for Users:
 Revert IE ESC to Original States:
   cmd.run:
     - name: |
-        $s = (Get-Content 'C:\Windows\Temp\ie_esc_original_state.txt').Split(',')
+        $s = (Get-Content 'C:/Windows/Temp/ie_esc_original_state.txt').Split(',')
         if ($s[0] -eq "1") { Set-ItemProperty '{{ hklm_root }}\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}' IsInstalled 1 }
         if ($s[1] -eq "1") { Set-ItemProperty '{{ hklm_root }}\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}' IsInstalled 1 }
-        Remove-Item 'C:\Windows\Temp\ie_esc_original_state.txt'
+        Remove-Item 'C:/Windows/Temp/ie_esc_original_state.txt'
     - shell: powershell
-    - onlyif: Test-Path 'C:\Windows\Temp\ie_esc_original_state.txt'
+    - onlyif: Test-Path 'C:/Windows/Temp/ie_esc_original_state.txt'
     - require:
       - cmd: 'Install Google Chrome EXE'

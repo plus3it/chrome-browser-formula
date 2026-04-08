@@ -8,11 +8,11 @@
 Capture Original IE ESC States:
   cmd.run:
     - name: |
-        $admin = (Get-ItemProperty '{{ hklm_root }}\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}').IsInstalled
-        $user = (Get-ItemProperty '{{ hklm_root }}\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}').IsInstalled
-        "$admin,$user" | Out-File 'C:\Windows\Temp\ie_esc_original_state.txt' -Encoding ascii
+        $admin = (Get-ItemProperty 'Registry::{{ hklm_root }}\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}').IsInstalled
+        $user = (Get-ItemProperty 'Registry::{{ hklm_root }}\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}').IsInstalled
+        "$admin,$user" | Out-File 'C:/Windows/Temp/ie_esc_original_state.txt' -Encoding ascii
     - shell: powershell
-    - creates: C:\Windows\Temp\ie_esc_original_state.txt
+    - creates: C:/Windows/Temp/ie_esc_original_state.txt
 
 Disable IE ESC for Administrators:
   reg.present:
