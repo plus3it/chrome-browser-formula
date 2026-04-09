@@ -12,8 +12,10 @@ values:
     release_family: ''
     uninstaller: ''
   policy_extras:
-    policy_archive: 'https://dl.google.com/dl/edgedl/chrome/policy/policy_templates.zip'
     archive_root: ''
+    policy_archive: 'https://dl.google.com/dl/edgedl/chrome/policy/policy_templates.zip'
+    policy_files: {}
+    registry_keys: []
     settings:
       chrome_homepage: ''
       home_page: ''
